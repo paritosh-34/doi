@@ -13,6 +13,8 @@ headers_Get = {
 
 
 def doiLinks(url):
+    if url.endswith("pdf"):
+        return url
     s = requests.Session()
     r = s.get(url, headers=headers_Get)
     soup = BeautifulSoup(r.text, "html.parser")
@@ -24,8 +26,11 @@ def doiLinks(url):
     #     print(link.get('href'))
     # print(links_with_text)
     matching = [s for s in links_with_text if "doi.org" in s]
-    # print(matching)
-    return matching
+    # print(matching, " -- ", matching[0])
+    # print(type(matching), " -- ", type(matching[0]))
+    if len(matching) == 0:
+        return ""
+    return matching[0]
 
 
-# allLinks('https://onlinelibrary.wiley.com/doi/abs/10.1111/j.2044-8295.1986.tb02199.x')
+doiLinks('http://faculty.ucmerced.edu/mhyang/papers/fg02.pdf')
