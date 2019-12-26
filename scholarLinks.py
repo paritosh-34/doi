@@ -18,7 +18,7 @@ def google(q):
     # url = 'https://www.google.com/search?q=' + q + '&ie=utf-8&oe=utf-8'
 
     output=[]
-    for i in range(0, 1):
+    for i in range(0, 10):
         url = 'https://scholar.google.com/scholar?start=' + str(i*10) + '&q=' + q + '&ie=utf-8&oe=utf-8&as_sdt=1,5&as_vis=1&scisbd=1'
         r = s.get(url, headers=headers_Get)
 
