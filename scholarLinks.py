@@ -22,7 +22,6 @@ def google(q):
         url = 'https://scholar.google.com/scholar?start=' + str(i*10) + '&q=' + q + '&ie=utf-8&oe=utf-8&as_sdt=1,5&as_vis=1&scisbd=1'
         r = s.get(url, headers=headers_Get)
 
-        print(url)
         soup = BeautifulSoup(r.text, "html.parser")
 
         for searchWrapper in soup.find_all('div', {'class': 'gs_ri'}): #this line may change in future based on google's web page structure
@@ -43,5 +42,5 @@ def google(q):
     return output
 
 
-res = google('apple')
-print(res)
+# res = google('apple')
+# print(res)
