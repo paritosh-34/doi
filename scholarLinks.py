@@ -18,19 +18,30 @@ def google(q):
     # url = 'https://www.google.com/search?q=' + q + '&ie=utf-8&oe=utf-8'
 
     output=[]
-    for i in range(0, 10):
+    for i in range(0, 1):
         url = 'https://scholar.google.com/scholar?start=' + str(i*10) + '&q=' + q + '&ie=utf-8&oe=utf-8&as_sdt=1,5&as_vis=1&scisbd=1'
         r = s.get(url, headers=headers_Get)
 
+        print(url)
         soup = BeautifulSoup(r.text, "html.parser")
-        for searchWrapper in soup.find_all('h3', {'class': 'gs_rt'}): #this line may change in future based on google's web page structure
+
+        for searchWrapper in soup.find_all('div', {'class': 'gs_ri'}): #this line may change in future based on google's web page structure
             url = searchWrapper.find('a')["href"]
             text = searchWrapper.find('a').text.strip()
-            result = {'text': text, 'url': url}
-            output.append(result)
+            flag = True
+            for l in searchWrapper.find_all('a'):
+                a = l.text.find('Cited by ')
+                if a == 0:
+                    c = l.text[9:]
+                    result = {'text': text, 'url': url, 'citations': c}
+                    output.append(result)
+                    flag = False
+            if flag:
+                result = {'text': text, 'url': url, 'citations': '-'}
+                output.append(result)
 
     return output
 
 
-# res = google('apple')
-# print(res)
+res = google('apple')
+print(res)
