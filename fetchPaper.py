@@ -1,14 +1,22 @@
 from scihub import SciHub
-
+from datetime import datetime
 sh = SciHub()
+import csv
 
-# fetch specific article (don't download to disk)
-# this will return a dictionary in the form
-# {'pdf': PDF_DATA,
-# 'url': SOURCE_URL
-# }
-result = sh.fetch('http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=1648853')
-result = sh.fetch('http://scihub.bban.top/10.1016/S0165-0114(99)00034-2')
+filename = 'links.csv'
+with open(filename, 'rt') as csvfile: 
+    csvreader = csv.reader(csvfile) 
+    for row in csvreader: 
+        try:
+            toi = str(row[0])
+            # print(toi)
+            # toi = '10.1016/S0165-0114(99)00034-2'
+            url = 'http://scihub.bban.top/'
+            final = url + toi
+            print(final)
+            result = sh.fetch(final)
 
-with open('output.pdf', 'wb+') as fd:
-    fd.write(result['pdf'])
+            with open('downloads/'+str(datetime.now())+'.pdf', 'wb+') as fd:
+                fd.write(result['pdf'])
+        except Exception as e:
+            print(e)
