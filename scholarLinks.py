@@ -12,19 +12,19 @@ headers_Get = {
     }
 
 
-def google(q):
+def google(q, rg):
     s = requests.Session()
     q = '+'.join(q.split())
-    # url = 'https://www.google.com/search?q=' + q + '&ie=utf-8&oe=utf-8'
 
     output=[]
-    for i in range(0, 10):
+    for i in range(0, rg):
         url = 'https://scholar.google.com/scholar?start=' + str(i*10) + '&q=' + q + '&ie=utf-8&oe=utf-8&as_sdt=1,5&as_vis=1&scisbd=1'
         r = s.get(url, headers=headers_Get)
 
         soup = BeautifulSoup(r.text, "html.parser")
 
-        for searchWrapper in soup.find_all('div', {'class': 'gs_ri'}): #this line may change in future based on google's web page structure
+        print("Extracting links from page", i+1, "...")
+        for searchWrapper in soup.find_all('div', {'class': 'gs_ri'}):  # this line may change in future based on google's web page structure
             url = searchWrapper.find('a')["href"]
             text = searchWrapper.find('a').text.strip()
             flag = True
@@ -42,5 +42,5 @@ def google(q):
     return output
 
 
-# res = google('apple')
+# res = google('apple', 1)
 # print(res)

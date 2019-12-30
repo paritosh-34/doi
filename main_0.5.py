@@ -1,10 +1,12 @@
 from scholarLinks import google
 from getdioLinks import doiLinks
+from give_captcha_input import gci
 
 qs = input("Enter your Search query: ")
+rg = int(input("How many pages of google would you like to search: "))
 
 print("Searching ...")
-Glinks = google(qs)
+Glinks = google(qs, rg)
 print("Search Complete.")
 
 print("Searching for dlinks ...")
@@ -29,6 +31,13 @@ with open('pdflist.txt', 'w') as filehandle:
 with open('doilist.txt', 'w') as filehandle:
     for listitem in dois:
         filehandle.write('%s\n' % listitem)
+
+f = open("links.csv", "a")
+for listitem in dois:
+    f.write(listitem + ",\n")
+f.close()
+
+gci('links.csv', qs)
 
 print(dois)
 print(pdfs)
