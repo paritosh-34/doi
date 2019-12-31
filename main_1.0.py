@@ -1,6 +1,7 @@
 from scholarLinks import google
 from getdioLinks import doiLinks
 from give_captcha_input import gci
+from Extract_pdf_doi import pdf_doi
 
 qs = input("Enter your Search query: ")
 rg = int(input("How many pages of google would you like to search: "))
@@ -39,5 +40,12 @@ f.close()
 
 gci('links.csv', qs)
 
-print(dois)
-print(pdfs)
+print('Searching for doi links in the downloaded pdfs ...')
+pdfDois = pdf_doi(qs+'/')
+
+f = open("pdflinks.csv", "a")
+for listitem in pdfDois:
+    f.write(listitem + ",\n")
+f.close()
+
+gci('pdflinks.csv', qs, style=False)
